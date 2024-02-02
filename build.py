@@ -44,7 +44,7 @@ def zip_folder(folder_path):
 
 import PyInstaller.__main__
 
-PyInstaller.__main__.run(['-F', 'run.py', '--exclude-module=numpy', '-i', 'icon.ico', '-w' if platform.system() == 'Windows' else '--strip'])
+PyInstaller.__main__.run(['-F', 'main.py', '--exclude-module=numpy', '-i', 'icon.ico', '-w' if platform.system() == 'Windows' else '--strip'])
 
 if os.name == 'nt':
     if os.path.exists(local + os.sep + "dist" + os.sep + "run.exe"):
