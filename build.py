@@ -47,21 +47,21 @@ import PyInstaller.__main__
 PyInstaller.__main__.run(['-F', 'main.py', '--exclude-module=numpy', '-i', 'icon.ico', '-w' if platform.system() == 'Windows' else '--strip'])
 
 if os.name == 'nt':
-    if os.path.exists(local + os.sep + "dist" + os.sep + "run.exe"):
-        shutil.move(local + os.sep + "dist" + os.sep + "run.exe", local)
-    if os.path.exists(local + os.sep + "bin" + os.sep + "Linux"):
-        shutil.rmtree(local + os.sep + "bin" + os.sep + "Linux")
+    if os.path.exists(local + os.sep + "dist" + os.sep + "main.exe"):
+        shutil.move(local + os.sep + "dist" + os.sep + "main.exe", local)
+    if os.path.exists(local + os.sep + "bin" + os.sep + "linux"):
+        shutil.rmtree(local + os.sep + "bin" + os.sep + "linux")
 elif os.name == 'posix':
-    if os.path.exists(local + os.sep + "dist" + os.sep + "run"):
-        shutil.move(local + os.sep + "dist" + os.sep + "run", local)
-    if os.path.exists(local + os.sep + "bin" + os.sep + "Windows"):
-        shutil.rmtree(local + os.sep + "bin" + os.sep + "Windows")
-    for i in os.listdir(local + os.sep + "bin" + os.sep + "Linux"):
+    if os.path.exists(local + os.sep + "dist" + os.sep + "main"):
+        shutil.move(local + os.sep + "dist" + os.sep + "main", local)
+    if os.path.exists(local + os.sep + "bin" + os.sep + "win"):
+        shutil.rmtree(local + os.sep + "bin" + os.sep + "win")
+    for i in os.listdir(local + os.sep + "bin" + os.sep + "linux"):
         if i == platform.machine():
             continue
-        shutil.rmtree(local + os.sep + "bin" + os.sep + "Linux" + os.sep + i)
+        shutil.rmtree(local + os.sep + "bin" + os.sep + "linux" + os.sep + i)
 for i in os.listdir(local):
-    if i not in ['run', 'run.exe', 'bin', 'LICENSE']:
+    if i not in ['main', 'main.exe', 'bin', 'LICENSE']:
         print(f"Removing {i}")
         if os.path.isdir(local + os.sep + i):
             try:
