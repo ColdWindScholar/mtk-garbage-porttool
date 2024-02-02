@@ -7,8 +7,7 @@ from os import walk, getcwd, chdir, symlink, readlink, name as osname, stat, unl
 from pathlib import Path
 from shutil import rmtree, copytree
 from zipfile import ZipFile, ZIP_DEFLATED
-
-from .boot_patch import BootPatcher, parseMagiskApk
+from .Magisk import Magisk_patch
 from .bootimg import unpack_bootimg, repack_bootimg
 from .configs import (
     make_ext4fs_bin,
@@ -341,13 +340,12 @@ class portutils:
         # patch with magisk
         if self.items.get("patch_magisk"):
             if op.isfile(self.items.get("magisk_apk")):
-                parseMagiskApk(self.items['magisk_apk'], self.items['target_arch'])
-                bp = BootPatcher(magiskboot_bin, legacysar=True, progress=None)
-                if not bp.patch(str(to)):
-                    bp.cleanup()
-                else:
-                    __replace(Path("new-boot.img"), to)
-                    unlink("new-boot.img")
+                with Magisk_patch(str(to), '', magiskboot=magiskboot_bin, MAGISAPK=self.items['magisk_apk'],
+                                  PATCH_ARCH=self.items['target_arch']) as m:
+                    m.auto_patch()
+                    if m.gen:
+                        __replace(m.gen, to)
+                        unlink(m.gen)
 
             else:
                 print(f"找不到{self.items['magisk_apk']}")
