@@ -390,7 +390,7 @@ class portutils:
             md5fd = md5path.open("r+")
             readmd5 = md5fd.readline().rstrip()
         md5fd.close()
-        if sysmd5 == readmd5:
+        if sysmd5 == readmd5 and Path("base/system").exists():
             unpack_flag = False
             print("检测到system已经解包，无需二次解包以减少移植时间")
         else:
