@@ -18,11 +18,11 @@ jobs:
       - name: Rename Tool
         run: |
           cd TIK-win
-          move ./TIK-win.zip ../TIK-4-${{ github.run_number }}-win.zip
+          move ./mtk-garbage-porttool-win.zip ../mtk-garbage-porttool-4-${{ github.run_number }}-win.zip
           cd ..
           cd TIK-linux
           ls
-          move ./TIK-linux.zip ../TIK-4-${{ github.run_number }}-linux.zip
+          move ./mtk-garbage-porttool-linux.zip ../mtk-garbage-porttool-4-${{ github.run_number }}-linux.zip
           cd ..
       - name: Upload release
         uses: ncipollo/release-action@v1
@@ -60,8 +60,8 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: TIK-win
-          path: './TIK-win.zip'
+          name: mtk-garbage-porttool-win
+          path: './mtk-garbage-porttool-win.zip'
   build-linux:
     runs-on: ubuntu-20.04
     steps:
@@ -83,5 +83,5 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: TIK-linux
-          path: './TIK-linux.zip'
+          name: mtk-garbage-porttool-linux
+          path: './mtk-garbage-porttool-linux.zip'
