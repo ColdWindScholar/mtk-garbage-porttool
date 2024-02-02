@@ -40,6 +40,8 @@ class proputil:
         for __ in self.propfd.readlines():
             if __[:1] == '#':
                 return
+            if '=' not in __:
+                continue
             yield __.split('=')
 
     def getprop(self, key: str) -> str or None:
