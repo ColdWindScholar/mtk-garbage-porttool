@@ -145,14 +145,17 @@ class ziputil:
     def __init__(self):
         pass
 
+    @staticmethod
     def decompress(zippath: str, outdir: str):
         with ZipFile(zippath, 'r') as zipf:
             zipf.extractall(outdir)
 
+    @staticmethod
     def extract_onefile(zippath: str, filename: str, outpath: str):
         with ZipFile(zippath, 'r') as zipf:
             zipf.extract(filename, outpath)
 
+    @staticmethod
     def compress(zippath: str, indir: str):
         with ZipFile(zippath, 'w', ZIP_DEFLATED) as zipf:
             for root, dirs, files in walk(indir):
@@ -234,7 +237,7 @@ class portutils:
                                  stderr=subprocess.STDOUT,
                                  creationflags=creationflags
                                  )
-        except:
+        except (Exception, BaseException):
             print("! Cannot execute program\n")
             return -1
         if verbose:
@@ -272,7 +275,7 @@ class portutils:
         base = basedir.joinpath("boot.img")
         try:
             ziputil.extract_onefile(self.portzip, "boot.img", "tmp/port/")
-        except:
+        except (Exception, BaseException):
             print("Error: 无法从移植包根目录内解压boot.img")
             return False
         port = Path(portdir.joinpath("boot.img").absolute())
@@ -553,7 +556,7 @@ class portutils:
                     unix_path = op.join(
                         op.join("/system", op.relpath(op.join(root, file), "tmp/rom/system")).replace("\\", "/")
                     ).replace("[", "\\[")
-                    if not unix_path in fs_files:
+                    if unix_path not in fs_files:
                         link = self.__readlink(op.join(root, file))
                         if link:
                             fs_label.append(
