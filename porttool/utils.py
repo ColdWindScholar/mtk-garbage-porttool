@@ -25,18 +25,18 @@ tool_author = 'affggh'
 tool_version = '1.1145141919810'
 
 
-class proputil:
-    def __init__(self, propfile: str):
-        proppath = Path(propfile)
-        if proppath.exists():
-            self.propfd = Path(propfile).open('r+', encoding='utf-8')
+class prop_utils:
+    def __init__(self, prop_file: str):
+        path = Path(prop_file)
+        if path.exists():
+            self.fd = Path(prop_file).open('r+', encoding='utf-8')
         else:
-            raise FileExistsError(f"File {propfile} does not exist!")
+            raise FileExistsError(f"File {prop_file} does not exist!")
         self.prop: dict = {n: v for n, v in self.__loadprop}
 
     @property
     def __loadprop(self) -> list:
-        for __ in self.propfd.readlines():
+        for __ in self.fd.readlines():
             if __[:1] == '#':
                 return
             if '=' not in __:
@@ -50,11 +50,11 @@ class proputil:
         self.prop[key] = value
 
     def save(self):
-        self.propfd.seek(0, 0)
-        self.propfd.truncate()
+        self.fd.seek(0, 0)
+        self.fd.truncate()
         for i in self.prop.keys():
-            self.propfd.write(f'{i}={self.prop.get(i, "")}\n')
-        self.propfd.close()
+            self.fd.write(f'{i}={self.prop.get(i, "")}\n')
+        self.fd.close()
 
     def __enter__(self):
         return self
@@ -325,7 +325,7 @@ class portutils:
                 case 'enable_adb':
                     if portdir.joinpath("inidrd/default.prop").exists():
                         print("开启adb和调试")
-                        with proputil(str(portdir.joinpath("inidrd/default.prop"))) as p:
+                        with prop_utils(str(portdir.joinpath("inidrd/default.prop"))) as p:
                             kv = [
                                 ('ro.secure', '0'),
                                 ('ro.adb.secure', '0'),
@@ -436,7 +436,7 @@ class portutils:
             match item:
                 case 'single_simcard' | 'dual_simcard':
                     print(f"修改手机为[{'单卡' if item == 'single_simcard' else '双卡'}]")
-                    with proputil(str(port_prefix.joinpath("build.prop"))) as p:
+                    with prop_utils(str(port_prefix.joinpath("build.prop"))) as p:
                         kv = [
                             ('persist.multisim.config', 'ss' if item == 'single_simcard' else 'dsds'),
                             ('persist.radio.multisim.config', 'ss' if item == 'single_simcard' else 'dsds'),
@@ -448,8 +448,8 @@ class portutils:
                             p.setprop(key, value)
                 case 'fit_density':
                     print(f"从底包获取dpi并替换到移植包")
-                    with proputil(str(port_prefix.joinpath("build.prop"))) as pp, \
-                            proputil(str(base_prefix.joinpath("build.prop"))) as bp:
+                    with prop_utils(str(port_prefix.joinpath("build.prop"))) as pp, \
+                            prop_utils(str(base_prefix.joinpath("build.prop"))) as bp:
                         print(f"修改移植包build.prop dpi:{bp.getprop('ro.sf.lcd_density')}")
                         pp.setprop('ro.sf.lcd_density', bp.getprop('ro.sf.lcd_density'))
                 case 'change_timezone' | 'change_locale' | 'change_model':
@@ -473,8 +473,8 @@ class portutils:
                                 'ro.product.board',
                                 'ro.product.brand',
                             ]
-                    with proputil(str(port_prefix.joinpath("build.prop"))) as pp, \
-                            proputil(str(base_prefix.joinpath("build.prop"))) as bp:
+                    with prop_utils(str(port_prefix.joinpath("build.prop"))) as pp, \
+                            prop_utils(str(base_prefix.joinpath("build.prop"))) as bp:
                         for key in keys:
                             value = bp.getprop(key)
                             print(f"修改移植包build.prop键值 [{key}]:[{value}]")
@@ -680,7 +680,7 @@ class portutils:
                         continue  # skip same path
                     # initial
                     uid, gid, mode, extra = '0', '0', '644', ''
-                    selable = 'u:object_r:system_file:s0'  # common system selable
+                    selinux_label = 'u:object_r:system_file:s0'  # common system selable
                     for index, farg in enumerate(fargs):
                         match farg:
                             case 'uid':
@@ -699,11 +699,11 @@ class portutils:
                                 else:
                                     extra = 'capabilities=' + fargs[index + 1]
                             case 'selabel':
-                                selable = fargs[index + 1]
+                                selinux_label = fargs[index + 1]
                     fs_label.append(
                         [fpath.lstrip('/'), uid, gid, mode, extra])
                     fc_label.append(
-                        [fpath, selable])
+                        [fpath, selinux_label])
                     last_fpath = fpath
 
         # Patch fs_config
@@ -754,7 +754,7 @@ class portutils:
             make_ext4fs_bin,
             # '-s', # sparse image
             '-J',  # has journal
-            '-T', '1',  # custom mtime
+            '-T', '1',  # custom time
             '-l', f'{sys_size if sys_size >= fit_size else fit_size}',  # pack size
             '-C', f"{str(config_dir.joinpath('system_fs_config'))}",
             '-S', f"{str(config_dir.joinpath('system_file_contexts'))}",
