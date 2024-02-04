@@ -17,11 +17,11 @@ jobs:
       - name: Rename Tool
         run: |
           cd mtk-garbage-porttool-win
-          move ./mtk-garbage-porttool-win.zip ../mtk-garbage-porttool-4-${{ github.run_number }}-win.zip
+          move ./mtk-garbage-porttool-win.zip ../mtk-garbage-porttool-${{ github.run_number }}-win.zip
           cd ..
           cd mtk-garbage-porttool-linux
           ls
-          move ./mtk-garbage-porttool-linux.zip ../mtk-garbage-porttool-4-${{ github.run_number }}-linux.zip
+          move ./mtk-garbage-porttool-linux.zip ../mtk-garbage-porttool-${{ github.run_number }}-linux.zip
           cd ..
       - name: Upload release
         uses: ncipollo/release-action@v1
