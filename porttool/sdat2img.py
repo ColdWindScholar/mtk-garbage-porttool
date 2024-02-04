@@ -22,7 +22,7 @@ def main(TRANSFER_LIST_FILE, NEW_DATA_FILE, OUTPUT_IMAGE_FILE):
         src_set = src.split(',')
         num_set = [int(item) for item in src_set]
         if len(num_set) != num_set[0] + 1:
-            print('Error on parsing following data to rangeset:\n{}'.format(src), file=sys.stderr)
+            print('Error on parsing following data to rangeset:\n{}'.format(src))
             sys.exit(1)
 
         return tuple([(num_set[i], num_set[i + 1]) for i in range(1, len(num_set), 2)])
@@ -52,7 +52,7 @@ def main(TRANSFER_LIST_FILE, NEW_DATA_FILE, OUTPUT_IMAGE_FILE):
             else:
                 # Skip lines starting with numbers, they are not commands anyway
                 if not cmd[0].isdigit():
-                    print('Command "{}" is not valid.'.format(cmd), file=sys.stderr)
+                    print('Command "{}" is not valid.'.format(cmd))
                     trans_list.close()
                     sys.exit(1)
 
@@ -79,8 +79,8 @@ def main(TRANSFER_LIST_FILE, NEW_DATA_FILE, OUTPUT_IMAGE_FILE):
         output_img = open(OUTPUT_IMAGE_FILE, 'wb')
     except IOError as e:
         if e.errno == errno.EEXIST:
-            print('Error: the output file "{}" already exists'.format(e.filename), file=sys.stderr)
-            print('Remove it, rename it, or choose a different file name.', file=sys.stderr)
+            print('Error: the output file "{}" already exists'.format(e.filename))
+            print('Remove it, rename it, or choose a different file name.')
             sys.exit(e.errno)
         else:
             raise
