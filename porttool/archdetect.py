@@ -8,11 +8,9 @@ def retTypeAndMachine():
     if ostype.find("cygwin") >= 0:  # Support cygwin x11
         ostype = "windows"
     machine = platform.machine().lower()
-    if machine == 'aarch64_be' \
-            or machine == 'armv8b' \
-            or machine == 'armv8l':
+    if machine in ['aarch64_be', 'armv8b', 'armv8l']:
         machine = 'aarch64'
-    if machine == 'i386' or machine == 'i686':
+    if machine in ['i386', 'i686']:
         machine = 'x86'
     if machine == "amd64":
         machine = 'x86_64'
@@ -21,10 +19,7 @@ def retTypeAndMachine():
             sys.stderr.write("Error : Program on windows only support 64bit machine\n")
             return None
     if ostype == 'linux':
-        if not (machine == 'aarch64' or
-                machine == 'arm' or
-                machine == 'x86' or
-                machine == 'x86_64'):
+        if machine not in ['aarch64', 'arm', 'x86', 'x86_64']:
             sys.stderr.write("Error : Machine not support your device [%s]\n" % machine)
             return None
     return ostype.replace('windows', 'win'), machine
