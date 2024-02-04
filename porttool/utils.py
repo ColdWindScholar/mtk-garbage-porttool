@@ -221,7 +221,8 @@ class portutils:
                 return False
         return True
 
-    def execv(self, cmd, verbose=False):
+    @staticmethod
+    def execv(cmd, verbose=False):
         if verbose:
             print("执行命令：\n", *cmd if type(cmd) == list else cmd)
         creationflags = subprocess.CREATE_NO_WINDOW if osname == 'nt' else 0
@@ -540,12 +541,13 @@ class portutils:
             print("添加缺失的文件和权限")
             fs_files = [i[0] for i in fs_label]
             for root, dirs, files in walk("tmp/rom/system"):
-                if "tmp/install" in root.replace('\\', '/'): continue  # skip lineage spec
-                for dir in dirs:
+                if "tmp/install" in root.replace('\\', '/'):
+                    continue  # skip lineage spec
+                for d in dirs:
                     unix_path = op.join(
-                        op.join("/system", op.relpath(op.join(root, dir), "tmp/rom/system")).replace("\\", "/")
+                        op.join("/system", op.relpath(op.join(root, d), "tmp/rom/system")).replace("\\", "/")
                     ).replace("[", "\\[")
-                    if not unix_path in fs_files:
+                    if unix_path not in fs_files:
                         fs_label.append([unix_path.lstrip('/'), '0', '0', '0755'])
                 for file in files:
                     unix_path = op.join(
@@ -603,14 +605,16 @@ class portutils:
         print("完成！")
         return
 
-    def __pack_fit_size(self):
+    @staticmethod
+    def __pack_fit_size():
         total = 0
         for root, dirs, files in walk("tmp/rom/system"):
             for file in files:
                 total += stat(op.join(root, file)).st_size
         return total * 1.2
 
-    def __readlink(self, dest: str):
+    @staticmethod
+    def __readlink(dest: str):
         if osname == 'nt':
             with open(dest, 'rb') as f:
                 if f.read(10) == b'!<symlink>':
@@ -620,25 +624,25 @@ class portutils:
         else:
             try:
                 readlink(dest)
-            except:
+            except (Exception, BaseException):
                 return None
 
     def __pack_img(self):
-        def __symlink(src: str, dest: str):
+        def __symlink(src_: str, dest: str):
             def setSystemAttrib(path: str) -> wintypes.BOOL:
                 return windll.kernel32.SetFileAttributesA(path.encode('gb2312'), wintypes.DWORD(0x4))
 
-            print(f"创建软链接 [{src}] -> [{dest}]")
+            print(f"创建软链接 [{src_}] -> [{dest}]")
             pdest = Path(dest)
             if not pdest.parent.exists():
                 pdest.parent.mkdir(parents=True)
             if osname == 'nt':
                 with open(dest, 'wb') as f:
                     f.write(
-                        b"!<symlink>" + src.encode('utf-16') + b'\0\0')
+                        b"!<symlink>" + src_.encode('utf-16') + b'\0\0')
                 setSystemAttrib(dest)
             else:
-                symlink(src, dest)
+                symlink(src_, dest)
 
         print("将输出打包为system镜像")
         updater = Path("tmp/rom/META-INF/com/google/android/updater-script")
@@ -705,11 +709,11 @@ class portutils:
         for root, dirs, files in walk("tmp/rom/system"):
             if "tmp/install" in root.replace('\\', '/'):
                 continue  # skip lineage spec
-            for dir in dirs:
+            for d in dirs:
                 unix_path = op.join(
-                    op.join("/system", op.relpath(op.join(root, dir), "tmp/rom/system")).replace("\\", "/")
+                    op.join("/system", op.relpath(op.join(root, d), "tmp/rom/system")).replace("\\", "/")
                 ).replace("[", "\\[")
-                if not unix_path in fs_files:
+                if unix_path not in fs_files:
                     fs_label.append([unix_path.lstrip('/'), '0', '0', '0755'])
             for file in files:
                 unix_path = op.join(
@@ -771,7 +775,8 @@ class portutils:
         else:
             self.__pack_rom()
 
-    def clean(self):
+    @staticmethod
+    def clean():
         print("移植完成，清理目录")
         if Path("tmp").exists():
             rmtree("tmp")
