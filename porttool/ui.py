@@ -210,7 +210,8 @@ class MyUI(ttk.Labelframe):
         buttoncheck1.grid(column=0, row=0, padx=5, pady=5)
         buttoncheck2.grid(column=1, row=0, padx=5, pady=5)
 
-        magiskarch = ttk.OptionMenu(buttonlabel, self.target_arch, "arm64-v8a", *["arm64-v8a", "armeabi-v7a", "x86", "x86_64"])
+        magiskarch = ttk.OptionMenu(buttonlabel, self.target_arch, "arm64-v8a",
+                                    *["arm64-v8a", "armeabi-v7a", "x86", "x86_64"])
 
         magiskapkentry = ttk.Entry(buttonlabel, textvariable=self.magisk_apk)
         magiskapkentry.bind("<Button-1>", lambda x: self.magisk_apk.set(askopenfilename()))
