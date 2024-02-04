@@ -227,7 +227,7 @@ class portutils:
     @staticmethod
     def execv(cmd, verbose=False):
         if verbose:
-            print("执行命令：\n", *cmd if type(cmd) == list else cmd)
+            print("执行命令：\n", *cmd if isinstance(cmd, list) else cmd)
         creationflags = subprocess.CREATE_NO_WINDOW if osname == 'nt' else 0
         try:
             ret = subprocess.run(cmd,
