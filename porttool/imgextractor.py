@@ -11,6 +11,10 @@ if os.name == 'nt':
 
 class Extractor:
     def __init__(self):
+        self.OUTPUT_MYIMAGE_FILE = None
+        self.MYFileName = None
+        self.BASE_MY_DIR = None
+        self.BASE_DIR = None
         self.CONFING_DIR = None
         self.DIR = None
         self.FileName = ""
@@ -251,7 +255,7 @@ class Extractor:
 
     def main(self, target, output_dir):
         self.BASE_DIR = (os.path.realpath(os.path.dirname(target)) + os.sep)
-        self.BASE_MYDIR = output_dir + os.sep
+        self.BASE_MY_DIR = output_dir + os.sep
         self.EXTRACT_DIR = os.path.realpath(os.path.dirname(output_dir)) + os.sep + self.__out_name(
             os.path.basename(output_dir), 0)  # output_dir
         self.OUTPUT_IMAGE_FILE = self.BASE_DIR + os.path.basename(target)
