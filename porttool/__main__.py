@@ -28,6 +28,6 @@ def main():
     root.update()
     try:
         root.iconbitmap("logo.ico")
-    except (Exception or BaseException):
+    except (Exception,  BaseException):
         ...
     root.mainloop()
