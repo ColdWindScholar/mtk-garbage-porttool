@@ -157,8 +157,10 @@ class MyUI(ttk.Labelframe):
             # Destory last items
             self.item = []
             self.item_box = []
-            if "actcvframe" in self.keys():
+            try:
                 self.actcvframe.destroy()
+            except (Exception, BaseException):
+                ...
             __create_cv_frame()
 
             for index, current in enumerate(item):
