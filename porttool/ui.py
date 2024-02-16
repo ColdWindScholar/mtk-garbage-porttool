@@ -35,16 +35,11 @@ class FileChooser(Toplevel):
         self.focus()
 
     def __setup_widgets(self):
-        def __match(val) -> str:
-            match val:
-                case 0:
-                    return "移植包路径"
-                case 1:
-                    return "此设备boot镜像"
-                case 2:
-                    return "此设备system镜像"
-                case _:
-                    return ""
+        __match = {
+            0: "移植包路径",
+            1: "此设备boot镜像",
+            2: "此设备system镜像"
+        }
 
         def __choose_file(val: StringVar):
             val.set(askopenfilename(initialdir=getcwd()))
@@ -52,7 +47,7 @@ class FileChooser(Toplevel):
 
         for index, current in enumerate([self.portzip, self.baseboot, self.basesys]):
             frame = ttk.Frame(self)
-            label = ttk.Label(frame, text=__match(index), width=16)
+            label = ttk.Label(frame, text=__match.get(index, ''), width=16)
             entry = ttk.Entry(frame, textvariable=current, width=40)
             button = ttk.Button(frame, text="选择文件", command=lambda x=current: __choose_file(x))
             self.frame.append([frame, label, entry, button])
