@@ -141,13 +141,12 @@ class MyUI(ttk.Labelframe):
             number = int(-event.delta / 2)
             actcanvas.yview_scroll(number, 'units')
 
-        def __scroll_func(event):
-            actcanvas.configure(scrollregion=actcanvas.bbox("all"), width=300, height=180)
-
         def __create_cv_frame():
             self.actcvframe = ttk.Frame(actcanvas)
             actcanvas.create_window(0, 0, window=self.actcvframe, anchor='nw')
-            self.actcvframe.bind("<Configure>", __scroll_func)
+            self.actcvframe.bind("<Configure>",
+                                 lambda *x: actcanvas.configure(scrollregion=actcanvas.bbox("all"), width=300,
+                                                                height=180))
             actcanvas.update()
 
         def __load_port_item(select):
