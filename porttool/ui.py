@@ -1,5 +1,5 @@
 from multiprocessing.dummy import DummyProcess
-from pathlib import Path
+from .pathlib import Path
 from tkinter import (
     ttk,
     Toplevel,
