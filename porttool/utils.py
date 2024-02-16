@@ -248,7 +248,7 @@ class portutils:
             rmtree(outdir)
         outdir.mkdir(parents=True)
         print(f"解压移植包...")
-        ziputil.decompress(self.portzip, str(outdir))
+        ZipFile(self.portzip, 'r').extractall(outdir)
 
     def __port_boot(self) -> bool:
         def __replace(src: Path, dest: Path):
