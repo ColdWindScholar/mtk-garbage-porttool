@@ -147,13 +147,11 @@ class ziputil:
 
     @staticmethod
     def decompress(zippath: str, outdir: str):
-        with ZipFile(zippath, 'r') as zipf:
-            zipf.extractall(outdir)
+        ZipFile(zippath, 'r').extractall(outdir)
 
     @staticmethod
     def extract_onefile(zippath: str, filename: str, outpath: str):
-        with ZipFile(zippath, 'r') as zipf:
-            zipf.extract(filename, outpath)
+        ZipFile(zippath, 'r').extract(filename, outpath)
 
     @staticmethod
     def compress(zippath: str, indir: str):
