@@ -21,7 +21,7 @@ from .sdat2img import main as sdat2img
 if osname == 'nt':
     from ctypes import windll, wintypes
 
-tool_author = 'affggh'
+tool_author = 'affggh and ColdWindScholar'
 tool_version = '1.1145141919810'
 
 
