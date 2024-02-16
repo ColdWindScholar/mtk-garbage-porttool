@@ -100,7 +100,7 @@ class MyUI(ttk.Labelframe):
         self.chipset_select = StringVar(value='mt65')
         self.pack_type = StringVar(value='zip')
         self.item = []
-        self.itembox = []  # save Checkbutton
+        self.item_box = []  # save Checkbutton
 
         self.patch_magisk = BooleanVar(value=False)
         self.target_arch = StringVar(value='arm64')
@@ -156,16 +156,16 @@ class MyUI(ttk.Labelframe):
             item = support_chipset_portstep[select]['flags']
             # Destory last items
             self.item = []
-            self.itembox = []
-            if self.actcvframe:
+            self.item_box = []
+            if "actcvframe" in self.keys():
                 self.actcvframe.destroy()
             __create_cv_frame()
 
             for index, current in enumerate(item):
                 self.item.append([current, BooleanVar(value=item[current])])  # flagname, flag[True, False]
-                self.itembox.append(ttk.Checkbutton(self.actcvframe, text=current, variable=self.item[index][1]))
+                self.item_box.append(ttk.Checkbutton(self.actcvframe, text=current, variable=self.item[index][1]))
 
-            for i in self.itembox:
+            for i in self.item_box:
                 i.pack(side='top', fill='x', padx=5)
 
         # label of support devices
