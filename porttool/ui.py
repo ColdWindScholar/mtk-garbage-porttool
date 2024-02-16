@@ -132,7 +132,7 @@ class MyUI(ttk.Labelframe):
 
         # start to port
         p = portutils(
-            newdict, *files, True if self.pack_type.get() == 'img' else False,
+            newdict, *files, self.pack_type.get() == 'img',
         ).start
         DummyProcess(target=p).start()
 
