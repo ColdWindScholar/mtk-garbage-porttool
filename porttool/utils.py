@@ -141,26 +141,13 @@ class updaterutil:
         return "\n".join(full_commands)
 
 
-class ziputil:
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def decompress(zippath: str, outdir: str):
-        ZipFile(zippath, 'r').extractall(outdir)
-
-    @staticmethod
-    def extract_onefile(zippath: str, filename: str, outpath: str):
-        ZipFile(zippath, 'r').extract(filename, outpath)
-
-    @staticmethod
-    def compress(zippath: str, indir: str):
-        with ZipFile(zippath, 'w', ZIP_DEFLATED) as zipf:
-            for root, dirs, files in walk(indir):
-                for file in files:
-                    file_path = op.join(root, file)
-                    zip_path = op.relpath(op.abspath(file_path), op.abspath(indir))
-                    zipf.write(file_path, zip_path)
+def compress_zip(zippath: str, indir: str):
+    with ZipFile(zippath, 'w', ZIP_DEFLATED) as zipf:
+        for root, dirs, files in walk(indir):
+            for file in files:
+                file_path = op.join(root, file)
+                zip_path = op.relpath(op.abspath(file_path), op.abspath(indir))
+                zipf.write(file_path, zip_path)
 
 
 class bootutil:
@@ -272,7 +259,7 @@ class portutils:
         basedir.joinpath("boot.img").absolute().write_bytes(Path(self.bootimg).read_bytes())
         base = basedir.joinpath("boot.img")
         try:
-            ziputil.extract_onefile(self.portzip, "boot.img", "tmp/port/")
+            ZipFile(self.portzip, 'r').extract("boot.img", "tmp/port/")
         except (Exception, BaseException):
             print("Error: 无法从移植包根目录内解压boot.img")
             return False
@@ -602,7 +589,7 @@ class portutils:
             if op.isfile("tmp/rom/system.img"):
                 print("删除遗留system镜像...")
                 unlink("tmp/rom/system.img")
-        ziputil.compress(str(outpath), "tmp/rom/")
+        compress_zip(str(outpath), "tmp/rom/")
         print("完成！")
         return
 
