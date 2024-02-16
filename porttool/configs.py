@@ -7,7 +7,7 @@ import json
 def retTypeAndMachine():
     # Detect machine and ostype
     ostype = platform.system().lower()
-    if ostype.find("cygwin") >= 0:  # Support cygwin x11
+    if "cygwin" in ostype:  # Support cygwin x11
         ostype = "windows"
     machine = platform.machine().lower()
     if machine in ['aarch64_be', 'armv8b', 'armv8l']:
