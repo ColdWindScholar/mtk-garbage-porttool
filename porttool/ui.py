@@ -228,10 +228,10 @@ class MyUI(ttk.Labelframe):
 
         optframe.pack(side='left', padx=5, pady=5, fill='y', expand=False)
         # log label
-        logframe = ttk.Labelframe(self, text="日志输出")
-        self.log = scrolledtext.ScrolledText(logframe)
+        log_frame = ttk.Labelframe(self, text="日志输出")
+        self.log = scrolledtext.ScrolledText(log_frame)
         sys.stderr = StdoutRedirector(self.log)
         sys.stdout = StdoutRedirector(self.log)
         self.log.pack(side='left', fill='both', anchor='center')
-        logframe.pack(side='left', padx=5, pady=5, fill='both', expand=True)
+        log_frame.pack(side='left', padx=5, pady=5, fill='both', expand=True)
         __load_port_item(self.chipset_select.get())
