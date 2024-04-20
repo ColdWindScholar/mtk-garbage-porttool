@@ -198,13 +198,10 @@ class MyUI(ttk.Labelframe):
         buttonlabel = ttk.Label(optframe)
         buttonport = ttk.Button(optframe, text="一键移植", command=self.__start_port)
         buttonport.pack(side='top', fill='both', padx=5, pady=5, expand=True)
-        buttoncheck1 = ttk.Radiobutton(buttonlabel, text="输出为zip卡刷包", variable=self.pack_type, value='zip',
-                                       )
-        buttoncheck2 = ttk.Radiobutton(buttonlabel, text="输出为img镜像", variable=self.pack_type, value='img',
-                                       )
-
-        buttoncheck1.grid(column=0, row=0, padx=5, pady=5)
-        buttoncheck2.grid(column=1, row=0, padx=5, pady=5)
+        ttk.Radiobutton(buttonlabel, text="输出为zip卡刷包", variable=self.pack_type, value='zip',
+                        ).grid(column=0, row=0, padx=5, pady=5)
+        ttk.Radiobutton(buttonlabel, text="输出为img镜像", variable=self.pack_type, value='img',
+                        ).grid(column=1, row=0, padx=5, pady=5)
 
         magiskarch = ttk.OptionMenu(buttonlabel, self.target_arch, "arm64-v8a",
                                     *["arm64-v8a", "armeabi-v7a", "x86", "x86_64"])
