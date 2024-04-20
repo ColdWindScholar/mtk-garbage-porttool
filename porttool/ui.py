@@ -198,10 +198,10 @@ class MyUI(ttk.Labelframe):
         buttonlabel = ttk.Label(optframe)
         buttonport = ttk.Button(optframe, text="一键移植", command=self.__start_port)
         buttonport.pack(side='top', fill='both', padx=5, pady=5, expand=True)
-        buttoncheck1 = ttk.Checkbutton(buttonlabel, text="输出为zip卡刷包", variable=self.pack_type, onvalue='zip',
-                                       offvalue='img')
-        buttoncheck2 = ttk.Checkbutton(buttonlabel, text="输出为img镜像", variable=self.pack_type, onvalue='img',
-                                       offvalue='zip')
+        buttoncheck1 = ttk.Radiobutton(buttonlabel, text="输出为zip卡刷包", variable=self.pack_type, value='zip',
+                                       )
+        buttoncheck2 = ttk.Radiobutton(buttonlabel, text="输出为img镜像", variable=self.pack_type, value='img',
+                                       )
 
         buttoncheck1.grid(column=0, row=0, padx=5, pady=5)
         buttoncheck2.grid(column=1, row=0, padx=5, pady=5)
