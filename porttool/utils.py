@@ -343,7 +343,7 @@ class portutils:
 
     def __port_system(self):
         def __replace(val: str):
-            print(f"替换{base_prefix}/{val} -> {port_prefix}/{val}...")
+            print(f"替换{str(base_prefix)}/{val} -> {str(port_prefix)}/{val}...")
             if "*" in val:  # 匹配通配符
                 for file in glob.glob(op.join(str(base_prefix), val)):
                     relfile = op.relpath(file, str(base_prefix))
