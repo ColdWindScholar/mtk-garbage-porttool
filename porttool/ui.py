@@ -133,8 +133,7 @@ class MyUI(ttk.Labelframe):
 
     def __setup_widgets(self):
         def __scroll_event(event):
-            number = int(-event.delta / 2)
-            actcanvas.yview_scroll(number, 'units')
+            actcanvas.yview_scroll(int(-event.delta / 2), 'units')
 
         def __create_cv_frame():
             self.actcvframe = ttk.Frame(actcanvas)
