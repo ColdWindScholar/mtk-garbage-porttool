@@ -360,7 +360,6 @@ class portutils:
                 port_prefix.joinpath(val).write_bytes(
                     base_prefix.joinpath(val).read_bytes()
                 )
-
         print("检测system md5检验和是否相同")
         with open(self.sysimg, 'rb') as f:
             md5filter = md5()
