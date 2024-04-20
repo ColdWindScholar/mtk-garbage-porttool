@@ -55,11 +55,10 @@ class FileChooser(Toplevel):
             for index, widget in enumerate(i):
                 if index == 0:  # frame
                     widget.pack(side='top', fill='x', padx=5, pady=5)
-                    continue
-                if index == 2:  # entry
+                elif index == 2:  # entry
                     widget.pack(side='left', fill='x', padx=5, pady=5)
-                    continue
-                widget.pack(side='left', padx=5, pady=5)
+                else:
+                    widget.pack(side='left', padx=5, pady=5)
         bottomframe = ttk.Frame(self)
         bottombutton = ttk.Button(bottomframe, text='确定', command=self.destroy)
         bottombutton.pack(side='right', padx=5, pady=5)
