@@ -146,8 +146,7 @@ def compress_zip(zippath: str, indir: str):
         for root, dirs, files in walk(indir):
             for file in files:
                 file_path = op.join(root, file)
-                zip_path = op.relpath(op.abspath(file_path), op.abspath(indir))
-                zipf.write(file_path, zip_path)
+                zipf.write(file_path, op.relpath(op.abspath(file_path), op.abspath(indir)))
 
 
 class bootutil:
