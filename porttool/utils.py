@@ -2,11 +2,12 @@ import glob
 import os.path as op
 import re
 import subprocess
+
 from hashlib import md5
 from os import walk, getcwd, chdir, symlink, readlink, name as osname, stat, unlink
 from pathlib import Path
 from shutil import rmtree, copytree
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile, ZIP_DEFLATED, is_zipfile
 from .Magisk import Magisk_patch
 from .bootimg import unpack_bootimg, repack_bootimg
 from .configs import (
@@ -234,6 +235,9 @@ class portutils:
             rmtree(outdir)
         outdir.mkdir(parents=True)
         print(f"解压移植包...")
+        if not is_zipfile(self.portzip):
+            print("文件不是ZIP, 请重新选择移植包")
+            return
         ZipFile(self.portzip, 'r').extractall(outdir)
 
     def __port_boot(self) -> bool:
