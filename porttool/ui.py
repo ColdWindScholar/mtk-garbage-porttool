@@ -169,13 +169,9 @@ class MyUI(ttk.Labelframe):
         optframe = ttk.Frame(self)
         optlabel = ttk.Label(optframe)
 
-        opttext = ttk.Label(optlabel, text="芯片类型", anchor='e')
-        optmenu = ttk.OptionMenu(optlabel, self.chipset_select, support_chipset[0], *support_chipset,
-                                 command=__load_port_item)
-
-        opttext.pack(side='left', padx=5, pady=5, expand=False)
-        optmenu.pack(side='left', fill='x', padx=5, pady=5, expand=False)
-
+        ttk.Label(optlabel, text="芯片类型", anchor='e').pack(side='left', padx=5, pady=5, expand=False)
+        ttk.OptionMenu(optlabel, self.chipset_select, support_chipset[0], *support_chipset,
+                       command=__load_port_item).pack(side='left', fill='x', padx=5, pady=5, expand=False)
         optlabel.pack(side='top', fill='x')
 
         # Frame of support action
@@ -196,7 +192,8 @@ class MyUI(ttk.Labelframe):
 
         # label of buttons
         buttonlabel = ttk.Label(optframe)
-        ttk.Button(optframe, text="一键移植", command=self.__start_port).pack(side='top', fill='both', padx=5, pady=5, expand=True)
+        ttk.Button(optframe, text="一键移植", command=self.__start_port).pack(side='top', fill='both', padx=5, pady=5,
+                                                                              expand=True)
         ttk.Radiobutton(buttonlabel, text="输出为zip卡刷包", variable=self.pack_type, value='zip',
                         ).grid(column=0, row=0, padx=5, pady=5)
         ttk.Radiobutton(buttonlabel, text="输出为img镜像", variable=self.pack_type, value='img',
@@ -209,7 +206,7 @@ class MyUI(ttk.Labelframe):
         magiskapkentry.bind("<Button-1>", lambda x: self.magisk_apk.set(askopenfilename()))
 
         ttk.Checkbutton(buttonlabel, text="修补magisk", variable=self.patch_magisk, onvalue=True,
-                                       offvalue=False, command=lambda: (
+                        offvalue=False, command=lambda: (
                 magiskapkentry.grid_forget(),
                 magiskarch.grid_forget(),
             ) if not self.patch_magisk.get() else (  # 你在点的时候是函数还是没变的，所以反着来
