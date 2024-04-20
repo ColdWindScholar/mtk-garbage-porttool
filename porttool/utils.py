@@ -326,9 +326,8 @@ class portutils:
         # repack boot
         print("打包boot镜像")
         bootutil(str(port)).repack()
-        outboot = Path(portdir.joinpath("boot-new.img"))
         to = Path("tmp/rom/boot.img")
-        __replace(outboot, to)
+        __replace(Path(portdir.joinpath("boot-new.img")), to)
         # patch with magisk
         if self.items.get("patch_magisk"):
             if op.isfile(self.items.get("magisk_apk")):
@@ -338,15 +337,13 @@ class portutils:
                     if m.gen:
                         __replace(m.gen, to)
                         unlink(m.gen)
-
             else:
                 print(f"找不到{self.items['magisk_apk']}")
-
         return True
 
     def __port_system(self):
         def __replace(val: str):
-            print(f"替换$base/{val} -> $port/{val}...")
+            print(f"替换{base_prefix}/{val} -> {port_prefix}/{val}...")
             if "*" in val:  # 匹配通配符
                 for file in glob.glob(op.join(str(base_prefix), val)):
                     relfile = op.relpath(file, str(base_prefix))
