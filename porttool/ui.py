@@ -196,8 +196,7 @@ class MyUI(ttk.Labelframe):
 
         # label of buttons
         buttonlabel = ttk.Label(optframe)
-        buttonport = ttk.Button(optframe, text="一键移植", command=self.__start_port)
-        buttonport.pack(side='top', fill='both', padx=5, pady=5, expand=True)
+        ttk.Button(optframe, text="一键移植", command=self.__start_port).pack(side='top', fill='both', padx=5, pady=5, expand=True)
         ttk.Radiobutton(buttonlabel, text="输出为zip卡刷包", variable=self.pack_type, value='zip',
                         ).grid(column=0, row=0, padx=5, pady=5)
         ttk.Radiobutton(buttonlabel, text="输出为img镜像", variable=self.pack_type, value='img',
@@ -209,17 +208,15 @@ class MyUI(ttk.Labelframe):
         magiskapkentry = ttk.Entry(buttonlabel, textvariable=self.magisk_apk)
         magiskapkentry.bind("<Button-1>", lambda x: self.magisk_apk.set(askopenfilename()))
 
-        buttonmagisk = ttk.Checkbutton(buttonlabel, text="修补magisk", variable=self.patch_magisk, onvalue=True,
+        ttk.Checkbutton(buttonlabel, text="修补magisk", variable=self.patch_magisk, onvalue=True,
                                        offvalue=False, command=lambda: (
                 magiskapkentry.grid_forget(),
                 magiskarch.grid_forget(),
             ) if not self.patch_magisk.get() else (  # 你在点的时候是函数还是没变的，所以反着来
                 magiskapkentry.grid(column=0, row=3, padx=5, pady=5, sticky='nsew', columnspan=2),
                 magiskarch.grid(column=0, row=2, padx=5, pady=5, sticky='nsew', columnspan=2)
-            ))
-        buttonmagisk.grid(column=0, row=1, padx=5, pady=5, sticky='w')
+            )).grid(column=0, row=1, padx=5, pady=5, sticky='w')
         buttonlabel.pack(side='top', padx=5, pady=5, fill='x', expand=True)
-
         optframe.pack(side='left', padx=5, pady=5, fill='y', expand=False)
         # log label
         log_frame = ttk.Labelframe(self, text="日志输出")
