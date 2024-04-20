@@ -145,7 +145,6 @@ class MyUI(ttk.Labelframe):
             actcanvas.update()
 
         def __load_port_item(select):
-
             # select = self.chipset_select.get()
             print(f"选中移植方案为{select}...")
             item = support_chipset_portstep[select]['flags']
