@@ -107,7 +107,7 @@ class MyUI(ttk.Labelframe):
             return
         files = boot, system, portzip = FileChooser(self).get()
         for i in boot, system, portzip:
-            if not Path(i).exists() or i == '':
+            if not Path(i).exists() or not i:
                 print(f"文件{i}未选择或不存在")
                 return
         print(f"底包boot路径为：{boot}\n"
