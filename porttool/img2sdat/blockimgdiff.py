@@ -28,7 +28,6 @@ from collections import deque, OrderedDict
 from hashlib import sha1
 from porttool.img2sdat.rangelib import RangeSet
 
-
 __all__ = ["EmptyImage", "DataImage", "BlockImageDiff"]
 
 
