@@ -59,9 +59,9 @@ class FileChooser(Toplevel):
                     widget.pack(side='left', fill='x', padx=5, pady=5)
                 else:
                     widget.pack(side='left', padx=5, pady=5)
-        bottomframe = ttk.Frame(self)
-        ttk.Button(bottomframe, text='确定', command=self.destroy).pack(side='right', padx=5, pady=5)
-        bottomframe.pack(side='bottom', fill='x', padx=5, pady=5)
+        bottom_frame = ttk.Frame(self)
+        ttk.Button(bottom_frame, text='确定', command=self.destroy).pack(side='right', padx=5, pady=5)
+        bottom_frame.pack(side='bottom', fill='x', padx=5, pady=5)
 
     def get(self) -> list:
         """
