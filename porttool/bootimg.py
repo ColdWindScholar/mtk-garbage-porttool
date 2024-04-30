@@ -223,40 +223,6 @@ def parse_bootimg(bootimg):
     bootimg.close()
 
 
-def cpio_list(directory, output=None):
-    """ generate gen_cpio_init-compatible list for directory,
-        if output is None, write to stdout
-
-        official document:
-        http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=usr/gen_init_cpio.c
-    """
-
-    if not hasattr(output, 'write'):
-        output = sys.stdout
-    for root, dirs, files in os.walk(directory):
-        for file in dirs + files:
-            path = os.path.join(root, file)
-            info = os.lstat(path)
-            name = path.replace(directory, '', 1)
-            name = name.replace(os.sep, '/')  # for windows
-            if name[:1] == '/':
-                name = name[1:]
-            mode = oct(S_IMODE(info.st_mode))
-            if S_ISLNK(info.st_mode):
-                # slink name path mode uid gid
-                realpath = os.readlink(path)
-                output.write('slink %s %s %s 0 0\n' % (name, realpath, mode))
-            elif S_ISDIR(info.st_mode):
-                # dir name path mode uid gid
-                output.write('dir %s %s 0 0\n' % (name, mode))
-            elif S_ISREG(info.st_mode):
-                # file name path mode uid gid
-                output.write('file %s %s %s 0 0\n' % (name, path, mode))
-
-    if hasattr(output, 'close'):
-        output.close()
-
-
 def parse_cpio(cpio, directory, cpiolist):
     """ parse cpio, write content under directory.
         cpio: file object
@@ -393,11 +359,11 @@ def write_cpio(cpiolist, output):
 
     files = []
     functions_ = {'dir': cpio_mkdir,
-                 'file': cpio_mkfile,
-                 'slink': cpio_mkslink,
-                 'nod': lambda *x: print("No Supported Yet"),
-                 'pipe': lambda *x: print("No Supported Yet"),
-                 'sock': lambda *x: print("No Supported Yet")}
+                  'file': cpio_mkfile,
+                  'slink': cpio_mkslink,
+                  'nod': lambda *x: print("No Supported Yet"),
+                  'pipe': lambda *x: print("No Supported Yet"),
+                  'sock': lambda *x: print("No Supported Yet")}
     next_inode = 300000
     while True:
         line = cpiolist.readline()
@@ -840,12 +806,6 @@ def showVersion():
     print('bootimg:\n')
     print('\tUpdate Date:20160601\n')
     print('\tModified:jpacg@vip.163.com\n')
-
-
-def printErr(s):
-    import sys
-    type = sys.getfilesystemencoding()
-    print(s.decode('utf-8').encode(type))
 
 
 if __name__ == '__main__':
