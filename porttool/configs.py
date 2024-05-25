@@ -19,11 +19,11 @@ def retTypeAndMachine():
     if ostype == 'windows':
         if not machine == 'x86_64':
             print("Error : Program on windows only support 64bit machine\n")
-            return None
+            return
     if ostype == 'linux':
         if machine not in ['aarch64', 'arm', 'x86', 'x86_64']:
-            print("Error : Machine not support your device [%s]\n" % machine)
-            return None
+            print(f"Error : Machine not support your device [{machine}]\n")
+            return
     return ostype.replace('windows', 'win'), machine
 
 

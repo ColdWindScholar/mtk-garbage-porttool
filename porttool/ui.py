@@ -47,7 +47,9 @@ class FileChooser(Toplevel):
 
         for index, current in enumerate((self.portzip, self.baseboot, self.basesys)):
             frame = ttk.Frame(self)
-            self.frame.append([frame, ttk.Label(frame, text=__match.get(index, ''), width=16), ttk.Entry(frame, textvariable=current, width=40), ttk.Button(frame, text="选择文件", command=lambda x=current: __choose_file(x))])
+            self.frame.append([frame, ttk.Label(frame, text=__match.get(index, ''), width=16),
+                               ttk.Entry(frame, textvariable=current, width=40),
+                               ttk.Button(frame, text="选择文件", command=lambda x=current: __choose_file(x))])
         for i in self.frame:
             for index, widget in enumerate(i):
                 if index == 0:  # frame
